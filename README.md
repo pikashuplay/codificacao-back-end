@@ -36,4 +36,14 @@ Projeto desenvolvido para fins acadêmicos e de aprendizado em desenvolvimento d
 ## Aulas programáticas 👨‍💻 
 
 ### 1. Aula 
-Revisão de nodejs e npm
+📚 Aula 01 — Revisão de Node.js e NPM
+* Inicialização de um projeto Node.js utilizando npm init -y.
+* Criação do arquivo diagnostico.js.
+* Utilização do módulo nativo 'os' do Node.js.
+* Coleta de informações do sistema, como:
+* Sistema operacional;
+* Memória RAM total e disponível;
+* Quantidade de núcleos da CPU;
+* Modelo do processador.
+* Exibição das informações no terminal utilizando console.log().
+* Execução do arquivo JavaScript com o comando node diagnostico.js.
