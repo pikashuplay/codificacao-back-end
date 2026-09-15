@@ -123,7 +123,6 @@ Foram identificadas requisições para:
 GET /
 GET /favicon.ico
 GET /status
-GET /cu
 GET /teste
 GET /local
 
