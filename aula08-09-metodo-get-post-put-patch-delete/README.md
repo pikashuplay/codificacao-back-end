@@ -190,9 +190,9 @@ Registrar controllers no módulo principal;
 Criar uma estrutura organizada para a API;
 Executar e testar as rotas localmente;
 Retornar dados em formato JSON.
-///
-📚 Aula 09 — Métodos GET, POST, PUT, PATCH e DELETE
-Objetivo da aula
+
+## 📚 Aula 09 — Métodos GET, POST, PUT, PATCH e DELETE
+## Objetivo da aula
 
 Nesta aula, desenvolvi uma API utilizando NestJS, trabalhando com os principais métodos HTTP e aprendendo a estruturar uma aplicação utilizando Controllers, Services e DTOs.
 
