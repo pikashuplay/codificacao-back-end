@@ -290,3 +290,79 @@ Ao finalizar as Aulas 08 e 09, desenvolvi uma API de gerenciamento de convidados
 A aplicação passou a possuir uma estrutura organizada entre Controller, Service e DTO, permitindo trabalhar com diferentes operações HTTP e manipular os convidados de forma individual.
 
 O projeto também foi executado localmente para verificar o funcionamento das rotas e das operações implementadas.
+
+## 🧪 Testes das Aulas 08 e 09 com Insomnia
+
+Nesta etapa, utilizei o **Insomnia** para testar as rotas da API desenvolvida com NestJS, verificando o funcionamento dos métodos HTTP e o retorno das requisições.
+
+### 🔹 Teste 1 — Método GET
+
+Foi realizado um teste utilizando o método **GET** para verificar o status da aplicação.
+
+**Requisição:**
+```http
+GET http://localhost:3000/status
+
+Resultado:
+
+Status Ativo
+
+A requisição retornou 200 OK, confirmando que a aplicação estava funcionando corretamente.
+
+🔹 Teste 2 — Método PATCH
+
+Foi utilizado o método PATCH para atualizar a idade de um convidado específico.
+
+Requisição:
+
+PATCH http://localhost:3000/convidados/1
+
+Body:
+
+{
+  "idade": 29
+}
+
+Resultado:
+
+{
+  "id": 1,
+  "nome": "Alice",
+  "idade": 29
+}
+
+A requisição retornou 200 OK, confirmando que a idade do convidado foi atualizada com sucesso.
+
+🔹 Teste 3 — Método DELETE
+
+Também foi realizado um teste utilizando o método DELETE para remover um convidado pelo seu ID.
+
+Requisição:
+
+DELETE http://localhost:3000/convidados/10
+
+Como o convidado com ID 10 não existia, a API retornou:
+
+Status: 404 Not Found
+
+Resposta:
+
+{
+  "message": "Convidado com ID 10 não encontrado!",
+  "error": "Not Found",
+  "statusCode": 404
+}
+
+Esse teste confirmou o tratamento de erros para quando um convidado não é encontrado.
+
+🔹 Testes realizados no terminal
+
+Também foram acompanhados os registros da aplicação no terminal, verificando operações como:
+
+Criação de novo convidado;
+Atualização da idade de convidado;
+Remoção de convidado pelo ID;
+Tratamento de convidados inexistentes.
+🛠️ Ferramenta utilizada
+Insomnia — utilizado para realizar e validar as requisições HTTP da API.
+NestJS — utilizado no desenvolvimento do servidor e das rotas.
