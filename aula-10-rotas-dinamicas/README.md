@@ -1,118 +1,149 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+10° AULA — Rotas Dinâmicas
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Nesta aula foi desenvolvido um exemplo de rotas dinâmicas utilizando NestJS, trabalhando com parâmetros de URL para buscar livros pelo seu ID. A implementação foi organizada utilizando Controller e Service, separando a responsabilidade de receber as requisições e realizar a busca dos dados.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Criação da estrutura da aula
+Foi criada a pasta:
 
-## Description
+aula-10-rotas-dinamicas
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Dentro do projeto foi utilizada a estrutura padrão do NestJS, contendo a pasta src e os arquivos necessários para executar a aplicação.
 
-## Project setup
+A estrutura principal ficou organizada da seguinte forma:
 
-```bash
-$ npm install
-```
+aula-10-rotas-dinamicas/ ├── src/ │ ├── app.controller.ts │ ├── app.module.ts │ ├── app.service.ts │ ├── livros.controller.ts │ ├── livros.service.ts │ └── main.ts ├── test/ ├── package.json └── README.md 2. Criação do LivrosService
 
-## Compile and run the project
+Foi criado o arquivo:
 
-```bash
-# development
-$ npm run start
+src/livros.service.ts
 
-# watch mode
-$ npm run start:dev
+Nesse Service foi criado um array contendo livros com as seguintes informações:
 
-# production mode
-$ npm run start:prod
-```
+ID; Título; Autor.
 
-## Run tests
+Foram cadastrados cinco livros para serem utilizados nos testes das rotas:
 
-```bash
-# unit tests
-$ npm run test
+1 - O Senhor dos Anéis — J.R.R Tolkien 2 - 1984 — George Orwell 3 - Dom Casmurro — Machado de Assis 4 - O Pequeno Príncipe — Antoine de Saint-Exupéry 5 - A Menina que Roubava Livros — Markus Zusak 3. Implementação da busca por ID
 
-# e2e tests
-$ npm run test:e2e
+No LivrosService foi criado o método:
 
-# test coverage
-$ npm run test:cov
-```
+encontrarPorId(id: number)
 
-## Deployment
+Esse método utiliza o find() para procurar dentro do array o livro que possui o ID informado:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+const livro = this.livros.find((livro) => livro.id === id);
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Dessa forma, a aplicação consegue localizar um livro específico através do seu identificador.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+Tratamento de livro não encontrado
+Também foi utilizado o NotFoundException do NestJS.
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Quando o ID informado não corresponde a nenhum livro cadastrado, é lançada uma exceção:
 
-## Observability
+throw new NotFoundException( Livro com ID ${id} não localizado em nosso acervo. );
 
-In production applications, observability is essential for understanding how your system behaves, detecting issues early, and maintaining reliable performance.
+Assim, a aplicação informa que o livro solicitado não foi encontrado.
 
-[NestJS Observe](https://observe.nestjs.com) automatically instruments your NestJS application, giving you deep visibility into your system with minimal setup:
+Criação do LivrosController
+Foi criado o arquivo:
 
-- **Distributed tracing:** Follow requests across services and understand how they flow through your system.
-- **Waterfall analysis:** Visualize request execution and identify slow operations, bottlenecks, and unexpected delays.
-- **Performance analysis:** Analyze application performance in real time and quickly pinpoint areas that need optimization.
-- **Metrics:** Track key application and infrastructure metrics to understand system health and performance trends.
-- **Logging:** Centralize and correlate logs with traces and other telemetry to make debugging easier.
-- **Error tracking:** Detect errors quickly and investigate their root causes with the surrounding context.
-- **SLA monitoring:** Track service-level objectives and identify when your application is approaching or exceeding defined thresholds.
-- **Alarms and alerts:** Set up alerts for critical errors, performance degradation, SLA violations, and other anomalies so your team can react quickly.
+src/livros.controller.ts
 
-This project is already instrumented. Create a free account at [observe.nestjs.com](https://observe.nestjs.com), add an application, and paste the generated app key and secret into the `ObserveModule.forRoot()` call in `src/app.module.ts`.
+O Controller foi configurado com:
 
-The free plan needs no payment details and covers 300,000 events a month. You can also browse the [live demo](https://www.observe-demo.nestjs.com/dashboard) first - the whole dashboard over a busy service's data, with nothing to install.
+@Controller('livros')
 
-## Resources
+Isso define livros como o caminho principal das rotas relacionadas aos livros.
 
-Check out a few resources that may come in handy when working with NestJS:
+Também foi feita a injeção do LivrosService através do construtor:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Auto-instrument your application with [NestJS Observe](https://observe.nestjs.com). Distributed tracing, metrics, and logging made easy. Error tracking and performance monitoring for your NestJS applications.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+constructor(private readonly livroService: LivrosService) {}
 
-## Support
+Dessa maneira, o Controller consegue utilizar os métodos disponíveis no Service.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Criação da rota dinâmica
+Foi criada uma rota GET utilizando um parâmetro dinâmico:
 
-## Stay in touch
+@Get(':id')
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+A rota permite acessar um livro informando seu ID na URL.
 
-## License
+Foi utilizado o @Param() juntamente com o ParseIntPipe:
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+buscarPorId( @Param('id', ParseIntPipe) id: string )
+
+O ParseIntPipe é utilizado para realizar a conversão do parâmetro recebido para um número inteiro.
+
+Comunicação entre Controller e Service
+Depois de receber o ID pela URL, o Controller chama o método encontrarPorId() do Service:
+
+return this.livroService.encontrarPorId(numeroId);
+
+Assim, o fluxo da aplicação ficou organizado da seguinte maneira:
+
+Requisição HTTP ↓ LivrosController ↓ Recebe o ID da URL ↓ ParseIntPipe ↓ LivrosService ↓ Busca o livro pelo ID ↓ Retorna o livro 8. Configuração do app.module.ts
+
+No arquivo:
+
+src/app.module.ts
+
+foram importados o LivrosController e o LivrosService.
+
+O Controller foi adicionado em:
+
+controllers: [LivrosController, AppController]
+
+E o Service foi registrado em:
+
+providers: [LivrosService, AppService]
+
+Também foi mantida a configuração relacionada ao @nestjs/observe, presente no projeto.
+
+Rota final
+Com a configuração realizada, a rota utilizada para buscar um livro pelo ID segue o padrão:
+
+GET /livros/:id
+
+Por exemplo:
+
+GET /livros/1
+
+A aplicação recebe o ID 1, procura o livro correspondente no Service e retorna os dados encontrados.
+
+Tratamento de erros
+Foi implementado o tratamento para quando o ID informado não existir no array de livros.
+
+Por exemplo, caso seja solicitado um ID que não esteja cadastrado, o LivrosService utiliza:
+
+NotFoundException
+
+para informar que o livro não foi localizado.
+
+O que foi aprendido nesta aula
+
+Nesta aula foram trabalhados:
+
+Rotas dinâmicas no NestJS; Parâmetros de rota com @Param(); Utilização do ParseIntPipe; Criação e utilização de Controllers; Criação e utilização de Services; Injeção de dependências; Busca de dados utilizando find(); Tratamento de recursos não encontrados com NotFoundException; Organização entre Controller e Service; Configuração de Controllers e Providers no AppModule.
+
+🛠️ Passos Realizados:
+Criação da Regra de Negócio no Service (livros.service.ts):
+
+Criação de um acervo mockado de livros armazenado em um array de objetos.
+Implementação do método encontrarPorId(id: number), que busca um livro específico pelo seu id.
+Adicionado o tratamento com NotFoundException (HTTP status 404) para retornar uma mensagem amigável caso o livro solicitado não seja encontrado no acervo.
+Configuração de Rotas no Controller (app.controller.ts e livros.controller.ts):
+
+Configurado o @Controller('status') no controller padrão para verificar a disponibilidade da API.
+Criação de rota dinâmica com parâmetro (/livros/:id) utilizando o decorator @Param().
+Mapeamento no Módulo Principal (app.module.ts):
+
+Declaração dos controllers (LivrosController, AppController) e providers (LivrosService, AppService) no módulo @Module.
+Testes e Validações no Insomnia:
+
+Validação de Tipo (400 Bad Request): Ao realizar requisição passando parâmetro não numérico (GET /livros/abc), o NestJS disparou o erro de validação "Validation failed (numeric string is expected)".
+Sucesso no Retorno (200 OK): Ao buscar por um ID válido (GET /livros/1), a API retornou o livro esperado em formato JSON:
+{
+  "id": 1,
+  "titulo": "O Senhor dos Anéis",
+  "autor": "J.R.R Tolkien"
+}
